@@ -34,23 +34,24 @@ def PersistirBaseLivros(baseLivros):
 		json.dump(baseLivros, json_file, indent=4)
 
 def CriarLivro(jsonRecebido):
-	#livro_novo = jsonRecebido
-	#livro = jsonRecebido
-	#baseLivros = ConsultarBaseLivros()
+    livro_novo = json.loads(jsonRecebido)
+    ultimoCodigo = 0
+    baseLivros = ConsultarBaseLivros()
 
-	ultimoCodigo = 0
+    for livro in baseLivros:
+        if (livro["codigo"] > ultimoCodigo):
+            ultimoCodigo = livro["codigo"]
 
-	#for livro in baseLivros:
-	#	if (livro["codigo"] > ultimoCodigo):
-	#		ultimoCodigo = livro["codigo"]
+    if (ultimoCodigo == 0):
+        livro_novo["codigo"] = 1
+    else :
+        livro_novo["codigo"] = ultimoCodigo + 1
 
-	#livro_novo["codigo"] = ultimoCodigo + 1
+    baseLivros.append(livro_novo)
+    PersistirBaseLivros(baseLivros)
 
-	#baseLivros.append(livro_novo)
-	#PersistirBaseLivros(baseLivros)
-
-	mensagemEnviar = "Livro inserido!"
-	return mensagemEnviar
+    mensagemEnviar = "Livro inserido!"
+    return mensagemEnviar
 
 def ConsultarLivroAutor(jsonRecebido):
 	livro_consulta = jsonRecebido

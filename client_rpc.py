@@ -5,11 +5,11 @@ import json
 def criarJson(codigo, titulo, autor, edicao, anoPublicacao) :
     livro = {}
 
-    if (codigo > 0)        : livro["codigo"] = codigo
-    if (titulo != "")      : livro["titulo"] = titulo
-    if (autor != "")       : livro["autor"]  = autor
-    if (edicao != "")      : livro["edicao"] = edicao
-    if (anoPublicacao > 0) : livro["anoPublicacao"] = anoPublicacao
+    livro["codigo"] = codigo
+    livro["titulo"] = titulo
+    livro["autor"]  = autor
+    livro["edicao"] = edicao
+    livro["anoPublicacao"] = anoPublicacao
 
     livroJson = json.dumps(livro)
 
@@ -28,6 +28,21 @@ def comunicarServidor(jsonEnviar, operacao) :
     #print ('Divisao: %d' % servidor.divisao(6,3))
 
     #return (mensagemRecebida.decode())
+
+def formatarVisualizacao(mensagemJson) :
+        livroJson = json.loads(mensagemJson)
+
+        print("----------------------------------------------------")
+
+        for livro in livroJson:
+            print("  Codigo: " + str(livro["codigo"]))
+            print("  Titulo: " + livro["titulo"])
+            print("  Autor:  " + livro["autor"])
+            print("  edicao: " + livro["edicao"])
+            print("  Ano publicacao: " + str(livro["anoPublicacao"]))
+            print("  ")
+
+        print("----------------------------------------------------")
 
 def mainMenu() :
 	escolhaPrincipal = 0
@@ -73,20 +88,6 @@ def menuCriar():
     mensagem = comunicarServidor(livroJson,"Criar")
     print(mensagem)
 
-def formatarVisualizacao(mensagemJson) :
-        livroJson = json.loads(mensagemJson)
-
-        print("----------------------------------------------------")
-
-        for livro in livroJson:
-            print("  Codigo: " + str(livro["codigo"]))
-            print("  Titulo: " + livro["titulo"])
-            print("  Autor:  " + livro["autor"])
-            print("  edicao: " + livro["edicao"])
-            print("  Ano publicacao: " + str(livro["anoPublicacao"]))
-            print("  ")
-
-        print("----------------------------------------------------")
 def menuConsultar():
     escolhaMenu2 = 0
 
