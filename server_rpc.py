@@ -11,7 +11,6 @@ def mainServer() :
 
     server = xmlrpc.server.SimpleXMLRPCServer(("localhost", porta ))
 
-    server.register_function(ConsultarBaseLivros, "ConsultarBaseLivros")
     server.register_function(CriarLivro, "CriarLivro")
     server.register_function(ConsultarLivroAutor, "ConsultarLivroAutor")
     server.register_function(ConsultarLivroTitulo, "ConsultarLivroTitulo")
@@ -50,11 +49,11 @@ def CriarLivro(jsonRecebido):
     baseLivros.append(livro_novo)
     PersistirBaseLivros(baseLivros)
 
-    mensagemEnviar = "Livro inserido!"
+    mensagemEnviar = ("Livro inserido!")
     return mensagemEnviar
 
 def ConsultarLivroAutor(jsonRecebido):
-	livro_consulta = jsonRecebido
+	livro_consulta = json.loads(jsonRecebido)
 	baseLivros = ConsultarBaseLivros()
 	livrosRetorno = json.loads('[]')
 
@@ -65,7 +64,7 @@ def ConsultarLivroAutor(jsonRecebido):
 	return (json.dumps(livrosRetorno))
 
 def ConsultarLivroTitulo(jsonRecebido):
-	livro_consulta = jsonRecebido
+	livro_consulta = json.loads(jsonRecebido)
 	baseLivros = ConsultarBaseLivros()
 	livrosRetorno = json.loads('[]')
 
@@ -76,7 +75,7 @@ def ConsultarLivroTitulo(jsonRecebido):
 	return (json.dumps(livrosRetorno))
 
 def ConsultarLivroPorAnoEdicao(jsonRecebido):
-	livro_consulta = jsonRecebido
+	livro_consulta = json.loads(jsonRecebido)
 	baseLivros = ConsultarBaseLivros()
 	livrosRetorno = json.loads('[]')
 
@@ -87,7 +86,7 @@ def ConsultarLivroPorAnoEdicao(jsonRecebido):
 	return (json.dumps(livrosRetorno))
 
 def RemoverLivro(jsonRecebido):
-	livro_exclusao = jsonRecebido
+	livro_exclusao = json.loads(jsonRecebido)
 	baseLivros = ConsultarBaseLivros()
 
 	for livro in baseLivros:
@@ -100,7 +99,7 @@ def RemoverLivro(jsonRecebido):
 	return mensagemEnviar
 
 def AlterarLivro(jsonRecebido):
-	livro_alteracao = jsonRecebido
+	livro_alteracao = json.loads(jsonRecebido)
 	baseLivros = ConsultarBaseLivros()
 
 	for livro in baseLivros:

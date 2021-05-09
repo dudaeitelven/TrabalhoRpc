@@ -5,11 +5,11 @@ import json
 def criarJson(codigo, titulo, autor, edicao, anoPublicacao) :
     livro = {}
 
-    livro["codigo"] = codigo
-    livro["titulo"] = titulo
-    livro["autor"]  = autor
-    livro["edicao"] = edicao
-    livro["anoPublicacao"] = anoPublicacao
+    if (codigo > 0)        : livro["codigo"] = codigo
+    if (titulo != "")      : livro["titulo"] = titulo
+    if (autor != "")       : livro["autor"]  = autor
+    if (edicao != "")      : livro["edicao"] = edicao
+    if (anoPublicacao > 0) : livro["anoPublicacao"] = anoPublicacao
 
     livroJson = json.dumps(livro)
 
@@ -20,14 +20,18 @@ def comunicarServidor(jsonEnviar, operacao) :
 
     if (operacao == "Criar") :
         mensagemRecebida = servidor.CriarLivro(jsonEnviar)
-        return mensagemRecebida    
+    elif (operacao == "ConsultarAutor") :
+        mensagemRecebida = servidor.ConsultarLivroAutor(jsonEnviar)
+    elif (operacao == "ConsultarTitulo") :
+        mensagemRecebida = servidor.ConsultarLivroTitulo(jsonEnviar)
+    elif (operacao == "ConsultarAnoEdicao") :
+        mensagemRecebida = servidor.ConsultarLivroPorAnoEdicao(jsonEnviar)
+    elif (operacao == "Remover") :
+        mensagemRecebida = servidor.RemoverLivro(jsonEnviar)
+    elif (operacao == "Alterar") :
+        mensagemRecebida = servidor.AlterarLivro(jsonEnviar)
 
-    #print ('Soma: %d' % servidor.soma(6,3))
-    #print ('Subtracao: %d ' % servidor.subtracao(6,3))
-    #print ('Multiplicao: %d' % servidor.multiplicacao(6,3))
-    #print ('Divisao: %d' % servidor.divisao(6,3))
-
-    #return (mensagemRecebida.decode())
+    return mensagemRecebida    
 
 def formatarVisualizacao(mensagemJson) :
         livroJson = json.loads(mensagemJson)
@@ -106,18 +110,18 @@ def menuConsultar():
             print("Autor do livro: ")
             autor = str(input())
 
-            livroJson = criarJson("ConsultarAutor",0,"",autor,"",0)
-            #mensagem = comunicarServidor(livroJson)
-            #formatarVisualizacao(mensagem)
+            livroJson = criarJson(0,"",autor,"",0)
+            mensagem = comunicarServidor(livroJson,"ConsultarAutor")
+            formatarVisualizacao(mensagem)
 
             return
         elif (escolhaMenu2 == 2) :
             print("Titulo do livro: ")
             titulo = str(input())
 
-            livroJson = criarJson("ConsultarTitulo",0,titulo,"","",0)
-            #mensagem = comunicarServidor(livroJson)
-            #formatarVisualizacao(mensagem)
+            livroJson = criarJson(0,titulo,"","",0)
+            mensagem = comunicarServidor(livroJson,"ConsultarTitulo")
+            formatarVisualizacao(mensagem)
 
             return
         elif (escolhaMenu2 == 3) :
@@ -132,25 +136,25 @@ def menuConsultarAnoEdicao():
     print("Edicao do livro: ")
     edicao = str(input())
 
-    livroJson = criarJson("ConsultarAnoEdicao",0,"","",edicao,anoPublicacao)
-    #mensagem = comunicarServidor(livroJson)
-    #formatarVisualizacao(mensagem)
+    livroJson = criarJson(0,"","",edicao,anoPublicacao)
+    mensagem = comunicarServidor(livroJson,"ConsultarAnoEdicao")
+    formatarVisualizacao(mensagem)
 
 def menuRemover():
     print("Titulo do livro: ")
     titulo = str(input())
 
-    livroJson = criarJson("Remover",0,titulo,"","",0)
-    #mensagem = comunicarServidor(livroJson)
-    #print(mensagem)
+    livroJson = criarJson(0,titulo,"","",0)
+    mensagem = comunicarServidor(livroJson,"Remover")
+    print(mensagem)
 
 def menuAlterar():
     print("Titulo do livro: ")
     titulo = str(input())
 
-    livroJson = criarJson("ConsultarTitulo",0,titulo,"","",0)
-    #mensagem = comunicarServidor(livroJson)
-    #jsonRecebido = json.loads(mensagem)
+    livroJson = criarJson(0,titulo,"","",0)
+    mensagem = comunicarServidor(livroJson,"ConsultarTitulo")
+    jsonRecebido = json.loads(mensagem)
 
     escolhaMenu5 = 0
 
@@ -177,9 +181,9 @@ def menuAlterar():
                 edicao        = livro['edicao']
                 anoPublicacao = livro['anoPublicacao']
             
-                livroJson = criarJson("Alterar",codigo,titulo,autor,edicao,anoPublicacao)
-                #mensagem = comunicarServidor(livroJson)
-                #print(mensagem)
+                livroJson = criarJson(codigo,titulo,autor,edicao,anoPublicacao)
+                mensagem = comunicarServidor(livroJson,"Alterar")
+                print(mensagem)
 
                 return
         elif (escolhaMenu5 == 2) : 
@@ -192,9 +196,9 @@ def menuAlterar():
                 edicao        = livro['edicao']
                 anoPublicacao = livro['anoPublicacao']
             
-                livroJson = criarJson("Alterar",codigo,titulo,autor,edicao,anoPublicacao)
-                #mensagem = comunicarServidor(livroJson)
-                #print(mensagem)
+                livroJson = criarJson(codigo,titulo,autor,edicao,anoPublicacao)
+                mensagem = comunicarServidor(livroJson,"Alterar")
+                print(mensagem)
                 
                 return
         elif (escolhaMenu5 == 3) :
@@ -207,9 +211,9 @@ def menuAlterar():
                 titulo        = livro['titulo']
                 anoPublicacao = livro['anoPublicacao']
             
-                livroJson = criarJson("Alterar",codigo,titulo,autor,edicao,anoPublicacao)
-                #mensagem = comunicarServidor(livroJson)
-                #print(mensagem)
+                livroJson = criarJson(codigo,titulo,autor,edicao,anoPublicacao)
+                mensagem = comunicarServidor(livroJson,"Alterar")
+                print(mensagem)
 
                 return
         elif (escolhaMenu5 == 4) :
@@ -222,9 +226,9 @@ def menuAlterar():
                 titulo = livro['titulo']
                 edicao = livro['edicao']
             
-                livroJson = criarJson("Alterar",codigo,titulo,autor,edicao,anoPublicacao)
-                #mensagem = comunicarServidor(livroJson)
-                #print(mensagem)
+                livroJson = criarJson(codigo,titulo,autor,edicao,anoPublicacao)
+                mensagem = comunicarServidor(livroJson,"Alterar")
+                print(mensagem)
 
                 return
         elif (escolhaMenu5 == 5) :
