@@ -64,7 +64,7 @@ def mainMenu() :
 
 def menuPrincipal():
     print('''
-        Livros - Sockets
+        Livros - Rpc
 
         [Menu principal]
         [1] - Criar livro
@@ -97,7 +97,7 @@ def menuConsultar():
 
     while (escolhaMenu2 != 3):
         print('''
-            Livros - Sockets
+            Livros - Rpc
             
             [Consultar livro]
             [1] - Consultar pelo Autor
@@ -160,7 +160,7 @@ def menuAlterar():
 
     while (escolhaMenu5 != 5):
         print('''
-            Livros - Sockets
+            Livros - Rpc
             
             [Alterar livro]
             [1] - Alterar autor
